@@ -1,0 +1,690 @@
+/* =========================================================
+   카싱크 CarSync — Design tokens
+   Concept: 동네 정비소 견적서 + 계기판(gauge) + 도로 표시선
+   ========================================================= */
+
+:root {
+  --ink:        #15191a;
+  --steel:      #2b3a3f;
+  --steel-2:    #3d4e53;
+  --paper:      #eeeae1;
+  --paper-dim:  #e2ddce;
+  --signal:     #d9662b;
+  --signal-dim: #f0c9a8;
+  --trust:      #3f6b52;
+  --trust-dim:  #cfe0d3;
+  --line:       rgba(21, 25, 26, 0.16);
+  --line-light: rgba(238, 234, 225, 0.24);
+
+  --font-display: "Black Han Sans", "Apple SD Gothic Neo", sans-serif;
+  --font-body: "Noto Serif KR", "Batang", serif;
+
+  --measure: 720px;
+  --pad: clamp(24px, 5vw, 72px);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; scroll-snap-type: none; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.25; margin: 0; }
+
+p { margin: 0; }
+
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--signal);
+  color: #fff;
+  padding: 10px 16px;
+  z-index: 100;
+}
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+:focus-visible {
+  outline: 3px solid var(--signal);
+  outline-offset: 3px;
+}
+
+a { color: inherit; }
+
+/* ---------------------------------------------------------
+   Header
+--------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  border-bottom: 2px solid var(--ink);
+}
+
+.site-header__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 14px var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.brand__mark { font-size: 18px; }
+
+.brand__en {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--steel-2);
+  border: 1px solid var(--ink);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+.slide-nav ol {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.slide-nav a {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--steel-2);
+  padding: 8px 10px;
+  border-radius: 2px;
+}
+
+.slide-nav a:hover { color: var(--ink); background: var(--paper-dim); }
+
+.slide-nav a[aria-current="true"] {
+  color: var(--ink);
+  background: var(--paper-dim);
+}
+
+.slide-nav__num {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--signal);
+}
+
+/* ---------------------------------------------------------
+   Slide shell
+--------------------------------------------------------- */
+
+.slide {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-block: clamp(56px, 8vh, 96px);
+  border-bottom: 1px solid var(--line);
+}
+
+.slide--alt { background: var(--paper-dim); }
+
+.slide--dark {
+  background: var(--steel);
+  color: var(--paper);
+  border-bottom-color: var(--line-light);
+}
+
+.slide__inner {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding-inline: var(--pad);
+}
+
+.slide-index {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  color: var(--signal);
+  margin-bottom: 14px;
+}
+
+.slide-index--light { color: var(--signal); }
+
+.slide-title {
+  font-size: clamp(28px, 4vw, 44px);
+  max-width: 14ch;
+  margin-bottom: 28px;
+}
+
+.slide-title--light { color: var(--paper); }
+
+.slide-lede {
+  max-width: var(--measure);
+  font-size: 18px;
+  color: var(--steel-2);
+  margin-bottom: 44px;
+}
+
+.slide--alt .slide-lede { color: var(--steel); }
+
+/* ---------------------------------------------------------
+   00. Cover slide
+--------------------------------------------------------- */
+
+.slide--cover {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(217,102,43,0.10), transparent 55%),
+    var(--paper);
+}
+
+.cover__inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: clamp(32px, 6vw, 80px);
+  align-items: center;
+}
+
+.eyebrow-plate {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  border: 2px solid var(--ink);
+  padding: 5px 12px;
+  margin-bottom: 24px;
+}
+
+.cover__title {
+  font-size: clamp(32px, 4.6vw, 54px);
+  margin-bottom: 28px;
+}
+
+.cover__quote {
+  margin: 0 0 24px;
+  padding-left: 20px;
+  border-left: 4px solid var(--signal);
+}
+
+.cover__quote p {
+  font-style: italic;
+  font-size: 19px;
+  color: var(--steel-2);
+}
+
+.cover__desc {
+  max-width: 46ch;
+  font-size: 16px;
+  color: var(--steel-2);
+}
+
+.cover__gauge { display: flex; justify-content: center; }
+
+.gauge-svg { width: 100%; max-width: 340px; }
+
+.gauge-svg__ring { fill: none; stroke: var(--line); stroke-width: 2; }
+.gauge-svg__track { fill: none; stroke: var(--paper-dim); stroke-width: 18; stroke-linecap: round; }
+.gauge-svg__fill { fill: none; stroke: var(--signal); stroke-width: 18; stroke-linecap: round; }
+.gauge-svg__ticks line { stroke: var(--ink); stroke-width: 3; }
+.gauge-svg__needle { stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+.gauge-svg__hub { fill: var(--ink); }
+.gauge-svg__label {
+  text-anchor: middle;
+  font-family: var(--font-display);
+  font-size: 28px;
+  fill: var(--ink);
+}
+.gauge-svg__unit {
+  text-anchor: middle;
+  font-family: var(--font-body);
+  font-size: 12px;
+  fill: var(--steel-2);
+}
+
+/* ---------------------------------------------------------
+   01. Problem — receipt cards
+--------------------------------------------------------- */
+
+.receipt-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.receipt-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 28px 24px 32px;
+  position: relative;
+  box-shadow: 6px 6px 0 var(--paper-dim);
+}
+
+.receipt-card::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 10px;
+  background:
+    linear-gradient(-45deg, #fff 6px, transparent 0),
+    linear-gradient(45deg, #fff 6px, transparent 0);
+  background-position: left bottom;
+  background-repeat: repeat-x;
+  background-size: 14px 14px;
+}
+
+.receipt-card__no {
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--signal);
+  margin-bottom: 10px;
+}
+
+.receipt-card h3 {
+  font-size: 19px;
+  margin-bottom: 12px;
+  max-width: 15ch;
+}
+
+.receipt-card p:not(.receipt-card__no) {
+  font-size: 15px;
+  color: var(--steel-2);
+}
+
+.receipt-card strong { color: var(--ink); }
+
+/* ---------------------------------------------------------
+   02. Mission
+--------------------------------------------------------- */
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.mission-item__mark {
+  font-family: var(--font-display);
+  font-size: 34px;
+  color: var(--signal);
+  margin-bottom: 10px;
+}
+
+.mission-item h3 {
+  color: var(--paper);
+  font-size: 19px;
+  margin-bottom: 10px;
+  max-width: 14ch;
+}
+
+.mission-item p {
+  color: #c9d2ce;
+  font-size: 15px;
+}
+
+/* ---------------------------------------------------------
+   03-1. Cost compare bars
+--------------------------------------------------------- */
+
+.cost-compare {
+  max-width: 760px;
+  border-top: 2px solid var(--ink);
+  padding-top: 28px;
+}
+
+.cost-compare__row {
+  margin-bottom: 22px;
+}
+
+.cost-compare__label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--steel-2);
+  margin-bottom: 8px;
+}
+
+.cost-compare__track {
+  background: var(--paper-dim);
+  height: 40px;
+  position: relative;
+}
+
+.cost-compare__bar {
+  height: 100%;
+  width: var(--w);
+  display: flex;
+  align-items: center;
+  padding-inline: 14px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.cost-compare__bar--high { background: var(--signal); }
+.cost-compare__bar--low { background: var(--trust); }
+
+.cost-compare__foot {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--steel-2);
+}
+
+/* ---------------------------------------------------------
+   03-2. Radar / timing-belt section
+--------------------------------------------------------- */
+
+.radar__car { width: 100%; max-width: 480px; display: block; margin-bottom: 40px; }
+.radar__chassis { fill: var(--steel); }
+.radar__body { fill: none; stroke: var(--steel); stroke-width: 6; }
+.radar__wheel { fill: var(--ink); }
+
+.radar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 22px;
+}
+
+.radar__list li {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.radar__tag {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--signal);
+}
+
+.radar__list h3 { font-size: 18px; margin-bottom: 6px; }
+.radar__list p { font-size: 15px; color: var(--steel-2); }
+.radar__list strong { color: var(--signal); }
+
+/* ---------------------------------------------------------
+   03-3. Approval ticket
+--------------------------------------------------------- */
+
+.approval {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  max-width: 720px;
+}
+
+.approval__photo {
+  width: 160px;
+  height: 200px;
+  background: var(--steel);
+  color: var(--paper);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 14px;
+  font-size: 13px;
+  flex-shrink: 0;
+  clip-path: polygon(0 0, 90% 0, 100% 10%, 100% 100%, 0 100%);
+}
+
+.approval__arrow {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--signal);
+}
+
+.approval__ticket {
+  background: #fff;
+  border: 1px dashed var(--ink);
+  padding: 20px 24px;
+  flex: 1;
+  min-width: 240px;
+  position: relative;
+}
+
+.approval__ticket-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 14px;
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.approval__ticket-row span:first-child { color: var(--steel-2); }
+.approval__ticket-row span:last-child { font-weight: 600; }
+
+.approval__stamp {
+  margin-top: 16px;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--trust);
+  border: 2px solid var(--trust);
+  padding: 4px 12px;
+  transform: rotate(-4deg);
+}
+
+/* ---------------------------------------------------------
+   03-4. Kakao mock
+--------------------------------------------------------- */
+
+.kakao { max-width: 560px; }
+
+.kakao__bubble {
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 15px;
+  max-width: 80%;
+  margin-bottom: 14px;
+}
+
+.kakao__bubble--from {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-bottom-left-radius: 2px;
+}
+
+.kakao__bubble--to {
+  background: var(--signal);
+  color: #fff;
+  border-bottom-right-radius: 2px;
+  margin-left: auto;
+}
+
+.kakao__note {
+  font-size: 13px;
+  color: var(--steel-2);
+  margin-top: 8px;
+}
+
+/* ---------------------------------------------------------
+   04. Compare table
+--------------------------------------------------------- */
+
+.table-wrap { overflow-x: auto; }
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+  font-size: 14.5px;
+}
+
+.compare-table th,
+.compare-table td {
+  border: 1px solid var(--line-light);
+  padding: 16px 18px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.compare-table thead th {
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: 14px;
+  color: var(--paper);
+  background: var(--ink);
+}
+
+.compare-table thead th span {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: #b7bfba;
+  margin-top: 4px;
+}
+
+.compare-table tbody th {
+  font-family: var(--font-display);
+  font-weight: normal;
+  font-size: 14px;
+  color: var(--paper);
+  background: var(--steel-2);
+  white-space: nowrap;
+}
+
+.compare-table tbody td { color: #d7dcd4; }
+
+.compare-table__hi {
+  background: rgba(217,102,43,0.14);
+  color: var(--paper) !important;
+  font-weight: 600;
+  border-color: rgba(217,102,43,0.3) !important;
+}
+
+.compare-table thead th.compare-table__hi { background: var(--signal); color: #fff !important; }
+
+/* ---------------------------------------------------------
+   05. Roadmap — road-line timeline
+--------------------------------------------------------- */
+
+.roadmap {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  position: relative;
+}
+
+.roadmap__phase {
+  padding-top: 32px;
+  padding-right: 32px;
+  border-top: 6px dashed var(--ink);
+  position: relative;
+}
+
+.roadmap__phase:last-child { padding-right: 0; }
+
+.roadmap__label {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--signal);
+  margin-bottom: 10px;
+}
+
+.roadmap__phase h3 {
+  font-size: 19px;
+  margin-bottom: 12px;
+  max-width: 16ch;
+}
+
+.roadmap__phase p {
+  font-size: 14.5px;
+  color: var(--steel-2);
+}
+
+/* ---------------------------------------------------------
+   Footer
+--------------------------------------------------------- */
+
+.site-footer {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 48px var(--pad);
+}
+
+.site-footer__inner {
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.site-footer__quote {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin-bottom: 14px;
+}
+
+.site-footer__meta {
+  font-size: 13px;
+  color: #9aa39d;
+}
+
+/* ---------------------------------------------------------
+   Responsive
+--------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .cover__inner { grid-template-columns: 1fr; }
+  .cover__gauge { order: -1; max-width: 240px; margin: 0 auto 12px; }
+  .receipt-row,
+  .mission-grid { grid-template-columns: 1fr; }
+  .roadmap { grid-template-columns: 1fr; gap: 32px; }
+  .roadmap__phase { padding-right: 0; }
+  .slide-nav { display: none; }
+}
+
+@media (max-width: 560px) {
+  .approval { flex-direction: column; align-items: flex-start; }
+  .approval__arrow { transform: rotate(90deg); }
+}
